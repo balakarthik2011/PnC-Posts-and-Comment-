@@ -1,0 +1,2 @@
+<br>
+<%= comment.name %> <strong> : </strong> <%= comment.comment %>  <% if comment.user_id == current_user.id%> <%= link_to "Edit",edit_comment_path(comment)%> | <%= link_to 'Delete', comment, method: :delete, data: { confirm: 'Are you sure?' } %><%end%> | <%= link_to "<button>Rate</button>".html_safe, rate_path(comment)%><br>

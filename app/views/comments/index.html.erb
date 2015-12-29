@@ -1,0 +1,45 @@
+<p id="notice"><%= notice %></p>
+<center>
+<style>
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+	
+}
+th, td {
+    padding: 5px;
+text-align: center;
+}
+</style>
+<h1><%= @post.name %></h1>
+
+<table style='width:75%'>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Author</th>
+      <th>Comment</th>
+
+      <th colspan="3">Edit_options</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @comment.each do |comment| %>
+      <tr>
+        <td><%= comment.name %></td>
+        <td><%= User.find_by(:id => @post.user_id).email %></td>
+        <td><%= comment.comment %></td>
+        <td><%= link_to 'Show', comment %></td>
+        <td><%= link_to 'Edit', edit_comment_path(comment) %></td>
+        <td><%= link_to 'Destroy', comment, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Comment', new_post_comment_path %> |
+<%= link_to 'Back to Posts', post_path(@post) %>
+</center>

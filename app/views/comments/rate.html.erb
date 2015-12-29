@@ -1,0 +1,26 @@
+<h1>Post Message : <%=@comment.post.message%></h1>
+<br><h2><%=@comment.name%>  :  "<%=@comment.comment%>"</h2>
+<br><h3>Rate it</h3>
+<%= form_for(@comment,:url=>commentrating_path(@comment)) do |f|%>
+    <div id="radio_buttons">
+      <% (1..5).each do |ratings|%>
+          <%=radio_button_tag "rate_comment",ratings%><%=ratings%>
+      <%end%>
+      <%= f.submit('rate')%>
+    </div>
+<%end%>
+<br>
+<h3>Previous Ratings</h3>
+
+<% if @comment.user_comment_ratings.any?%>
+    <table>
+      <thead><th>User</th><th>Rating</th></thead><tbody>
+        <%@comment.user_comment_ratings.each do|a|%>
+          <tr><td><%=User.find_by_id(a.user_id).email%></td><td><%=a.rating%></td></tr>
+        <%end%>
+        </tbody></table>
+<%else%>
+        Not Yet Rated
+<%end%>
+<br>
+  <strong><%= link_to "Back",post_path(@comment.post)%></strong>

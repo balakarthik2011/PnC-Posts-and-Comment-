@@ -1,0 +1,56 @@
+<p id="notice"><%= notice %></p>
+<script>
+$(document).ajaxStart(function(){
+$(".img-ajax").show();
+});
+$(document).ajaxStop(function(){
+$(".img-ajax").hide();
+});
+</script>
+<div class="img-ajax">
+  <%=image_tag("ajax-loader.gif")%>
+</div>
+<h1>Listing Posts</h1>
+<%if not @topic%>
+<br><h3>Date Filter</h3>
+<form  action="/posts" method="GET">
+  From  <input type="date" name="from_date">  -
+  To    <input type="date" name="to_date">
+  <input type=submit value="Show Details">
+</form>
+    <%end%>
+<br>
+<% if @posts.any?%>
+<table style='width:100%' id="posts">
+  <thead>
+    <tr>
+      <th>Name</th> 
+      <th>Email</th>
+      <th>Message</th>
+      <th>Topic</th>
+      <th>Status</th>
+      <th>No of<br> comments</th>
+      <th colspan="3">Edit_options</th>
+    </tr>
+  </thead>
+  <tbody>
+
+    <%= render @posts%>
+
+  </tbody>
+</table>
+
+<%else%>
+    <strong>No posts on selected dates</strong><br>
+<%end%>
+<br>
+<%= will_paginate @posts%>
+<% if @topic %>
+<%= link_to 'New Post', "#" ,id: "posts-link"%> |
+    <section id ="new-posts">
+<%= render 'form'%>
+    </section>
+<%= link_to 'Back to Topics', topic_path(@topic) %>
+<% else %>
+<%= link_to 'Topics', topics_path %>
+<%end%>

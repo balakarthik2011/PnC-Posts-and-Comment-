@@ -1,0 +1,80 @@
+<script>
+  $(document).ready(function() {
+    <% if not @post.users.exists?(current_user.id)%>
+    $.ajax({
+          type: "POST",
+          url: '/posts/update_post',
+          data: "id=<%=@post.id%>"
+        }
+    )
+    <%end%>
+  })
+</script>
+<div class="posts"><p id="notice"><%= notice %></p>
+<h1>
+  <%= @post.name %>(<%= @post.topic.name %>)
+</h1>
+
+<section id="image">
+  <h2>Image</h2>
+<% if @post.image? %>
+<%= image_tag @post.image.url,size:"80x80"%>
+    <%end%>
+</section>
+
+  <strong>Name:</strong>
+  <%= @post.name %>
+  <strong>Author:</strong>
+  <%= @post.user.email %>
+  <strong>Message:</strong>
+  <%= @post.message %>
+  <strong>Topic:</strong>
+  <%= @post.topic.name %>
+<ul>
+ <strong>Tags:</strong>
+   <% @tags=@post.tags %>
+  <%  @tags.each do|tag|%>
+<br><%= tag.name%>
+  <% end %>
+  </ul>
+  <strong>Previous Rating:<br></strong>
+    <% (1..5).each do |ratings|%>
+        <%=ratings%>-Star -> <%=@post.ratings.where(:star => ratings).count%><br>
+    <%end%>
+  <strong><br>Average          <%= @post.ratings.average(:star).to_f.round(2)%><br></strong>
+  <%= form_for(@post,:url => postrating_path(@post)) do |f|%>
+    <div id="radio_buttons">
+      <% (1..5).each do |ratings|%>
+      <%=radio_button_tag "rate",ratings%><%=ratings%>
+      <%end%>
+      <%= f.submit('rate')%>
+    </div>
+    <%end%>
+  <br>
+  <% i = @post.comments.count() %>
+  <strong>  <%= link_to 'comments('+i.to_s+')' ,'#', id: "comments-link"%></strong><br>
+  <section id="comments_sec">
+    <section id="new_comment">
+     <ol id="comments">
+      <%=render @comments%>
+     </ol>
+<br>
+  <strong>New Comment</strong>
+      <%= form_for [@post,@post.comments.new], remote: true do |f| %>
+          <div id="txt-field">
+            <br><%= f.label :comment %>
+            <br><%= f.text_area :comment ,:id =>"ct"%>
+          </div>
+
+          <div class="actions">
+            <br><%= f.submit %>
+          </div>
+      <% end %>
+
+      <br>
+    </section>
+  </section>
+<br><% if @post.user_id == current_user.id%>
+<%= link_to 'Edit', edit_post_path(@post) %> |<%end%>
+<%= link_to 'Back', topic_posts_path(@post.topic) %>
+</div>

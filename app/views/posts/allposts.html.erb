@@ -1,0 +1,52 @@
+<p id="notice"><%= notice %></p>
+<style>
+  table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+
+  }
+  th, td {
+    padding: 5px;
+    text-align: center;
+  }
+</style>
+<h1>Listing Posts</h1>
+
+<table style='width:100%'>
+  <thead>
+  <tr>
+    <th>Name</th>
+    <th>Email</th>
+    <th>Message</th>
+    <th>Topic</th>
+    <th>Status</th>
+    <th>No of comments</th>
+    <th colspan="3">Edit_options</th>
+  </tr>
+  </thead>
+  <tbody>
+
+  <% @post.each do |post| %>
+      <tr>
+        <td><%= post.name %></td>
+        <td><%= post.user.email%></td>
+        <td><%= post.message %></td>
+        <td><%= post.topic.name %></td>
+        <td><%if post.users.exists?(current_user)%>read<%else%>unread<%end%></td>
+        <td><%=post.comments.count()%></td>
+        <td><%= link_to 'Show', post %></td>
+        <td><%= link_to 'Edit', edit_post_path(post) %></td>
+        <td><%= link_to 'Delete', post, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<br>
+<%= will_paginate @post%>
+<% if @topic %>
+    <%= link_to 'New Post', new_topic_post_path %> |
+    <%= link_to 'Back to Topics', topic_path(@topic) %>
+<% else %>
+    <%= link_to 'Topics', topics_path %>
+<%end%>

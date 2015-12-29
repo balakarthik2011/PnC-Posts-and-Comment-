@@ -1,0 +1,47 @@
+// Place all the styles related to the posts controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+
+
+
+  table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+
+  }
+
+  th, td {
+    padding: 5px;
+    text-align: center;
+  }
+  th{
+    background: #999999;
+  }
+
+  tr {
+    background: #BBBBBB;
+  }
+
+.posts {
+  text-align: center;
+
+}
+
+#new-posts {
+  display: none;
+}
+
+#postb {
+  height: 30px;
+  width: 100px;
+  background-color: #1E90FF;
+}
+
+.img-ajax {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  display: none;
+}
+

@@ -1,0 +1,8 @@
+
+
+<% if @posts.errors.any? %>
+alert("ERROR(S): <%= j @posts.errors.full_messages.join('; ') %>")
+<%else%>
+$("#posts").append('<%= j render @posts%>');
+alert("Post Sucessfully created")
+<%end%>

@@ -1,0 +1,39 @@
+	<p id="notice"><%= notice %></p>
+	<style>
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+	
+}
+th, td {
+    padding: 5px;
+text-align: center;
+}
+</style>
+<center>
+<h1>Listing Topics</h1>
+
+<table style = 'width:75%' >
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th colspan="3">Edit</th>
+    </tr>
+  </thead>
+<ol>
+  <tbody>
+    <% @topics.each do |topic| %>
+      <tr>
+        <td><%= topic.name %></td>
+        <td><%= link_to 'Show', topic_posts_path(topic) %></td>
+        <td><%= link_to 'Edit', edit_topic_path(topic) %></td>
+        <td><%= link_to 'Destroy', topic, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+  </ol>
+</table>
+
+<br>
+<%= link_to 'New Topic', new_topic_path %>|
+<%= link_to 'All Posts',posts_path %>
